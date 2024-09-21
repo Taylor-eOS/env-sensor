@@ -1,0 +1,31 @@
+Restarting the driver manually:
+sudo modprobe -r ftdi_sio
+sudo modprobe ftdi_sio
+Manually bind the driver to the device by writing its vendor and product ID to the driver:
+echo 0590 00d4 | sudo tee /sys/bus/usb-serial/drivers/ftdi_sio/new_id
+Create the systemd service file:
+sudo nano /etc/systemd/system/usb-bind.service
+Add the following content to the file:
+```
+[Unit]
+Description=Bind Omron USB sensor
+After=multi-user.target
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'modprobe ftdi_sio && echo 0590 00d4 > /sys/bus/usb-serial/drivers/ftdi_sio/new_id'
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+```
+Reload the systemd daemon:
+sudo systemctl daemon-reload
+Enable the service:
+sudo systemctl enable usb-bind.service
+Start the service:
+sudo systemctl start usb-bind.service
+Create udev rule (not necessary):
+sudo nano /etc/udev/rules.d/99-usb-serial.rules
+Add above content here too.
+Reload udev rules:
+sudo udevadm control --reload-rules
+sudo udevadm trigger
