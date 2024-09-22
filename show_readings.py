@@ -16,11 +16,11 @@ def get_sensor_data():
         'light': data.light,
         'pressure': float(data.pressure),
         'noise': float(data.noise),
-        'TVOC': data.eTVOC,
-        'CO2': data.eCO2,
+        'eTVOC': data.eTVOC,
+        'eCO2': data.eCO2,
         'thi': float(data.thi),
         'wbgt': float(data.wbgt),
-        'niceness': 100
+        'niceness': 100  # Niceness is always 100%
     })
 
 @app.route('/')
@@ -99,7 +99,6 @@ def index():
                 <p>CO2: <span class="value" id="eCO2"></span> ppm</p>
                 <p>THI: <span class="value" id="thi"></span></p>
                 <p>WBGT: <span class="value" id="wbgt"></span> °C</p>
-                <p>Niceness: <span class="value" id="niceness">100%</span></p>
             </div>
             <div class="footer">
                 Sensor data updates every second
