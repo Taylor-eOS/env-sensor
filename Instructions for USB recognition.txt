@@ -23,9 +23,11 @@ Enable the service:
 sudo systemctl enable usb-bind.service
 Start the service:
 sudo systemctl start usb-bind.service
-Create udev rule (not necessary):
+Create udev rule:
 sudo nano /etc/udev/rules.d/99-usb-serial.rules
-Add above content here too.
+```
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0590", ATTRS{idProduct}=="00d4", SYMLINK+="omron_sensor"
+```
 Reload udev rules:
 sudo udevadm control --reload-rules
 sudo udevadm trigger
